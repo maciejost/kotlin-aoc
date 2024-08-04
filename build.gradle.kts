@@ -1,27 +1,18 @@
 plugins {
-    kotlin("jvm") version "1.9.0"
-    application
+  kotlin("jvm") version "1.9.0"
+  application
 }
 
 group = "me.user"
+
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
-dependencies {
-    testImplementation(kotlin("test"))
-}
+dependencies { testImplementation(kotlin("test")) }
 
-tasks.test {
-    useJUnitPlatform()
-}
+tasks.test { useJUnitPlatform() }
 
-kotlin {
-    jvmToolchain(8)
-}
+kotlin { jvmToolchain(8) }
 
-application {
-    mainClass.set("MainKt")
-}
+application { mainClass.set("MainKt") }

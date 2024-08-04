@@ -22,23 +22,22 @@ private fun parseElfData(): List<Int> {
     return washedValueElves.map { it.sum() }
 }
 
-interface Elf {
+private interface Elf {
     val calories: Int
     val index: Int
 }
 
 private fun getHighestCalories(): Elf {
     val elves = parseElfData()
-    var highestElf = elves.maxOrNull()
+    val highestElf = elves.maxOrNull()
 
-    var elfObject = object : Elf {
+    return object : Elf {
         override val calories: Int
             get() = highestElf!!
         override val index: Int
             get() = elves.indexOf(highestElf)
     }
 
-    return elfObject;
 }
 
 private fun getTopThree(): List<Elf> {
@@ -46,7 +45,7 @@ private fun getTopThree(): List<Elf> {
     val sortedElves = elves.sortedDescending()
     val topThree = sortedElves.take(3)
     val topThreeElves = topThree.map {
-        var elfObject = object : Elf {
+        val elfObject = object : Elf {
             override val calories: Int
                 get() = it
             override val index: Int

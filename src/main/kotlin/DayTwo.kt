@@ -22,111 +22,93 @@ const val PAPER_VALUE = 2
 const val SCISSORS_VALUE = 3
 
 private fun getChoiceScore(choice: String): Int {
-    return when (choice) {
-        PLAYER_ROCK -> ROCK_VALUE
-        PLAYER_PAPER -> PAPER_VALUE
-        PLAYER_SCISSORS -> SCISSORS_VALUE
-        else -> 0
-    }
+  return when (choice) {
+    PLAYER_ROCK -> ROCK_VALUE
+    PLAYER_PAPER -> PAPER_VALUE
+    PLAYER_SCISSORS -> SCISSORS_VALUE
+    else -> 0
+  }
 }
 
 private fun isChoiceSame(choice: String, opponentChoice: String): Boolean {
-    return ((choice == PLAYER_ROCK && opponentChoice == OPPONENT_ROCK)
-            || (choice == PLAYER_PAPER && opponentChoice == OPPONENT_PAPER)
-            || (choice == PLAYER_SCISSORS && opponentChoice == OPPONENT_SCISSORS))
+  return ((choice == PLAYER_ROCK && opponentChoice == OPPONENT_ROCK) ||
+      (choice == PLAYER_PAPER && opponentChoice == OPPONENT_PAPER) ||
+      (choice == PLAYER_SCISSORS && opponentChoice == OPPONENT_SCISSORS))
 }
 
 private fun partTwoGame(opponentChoice: String, desiredOutcome: String): Int {
-    var playerChoice = ""
+  var playerChoice = ""
 
-    if (opponentChoice == OPPONENT_ROCK && desiredOutcome == PLAYER_WIN
-        || opponentChoice == OPPONENT_PAPER && desiredOutcome == PLAYER_DRAW
-        || opponentChoice == OPPONENT_SCISSORS && desiredOutcome == PLAYER_LOSE
-    ) {
-        playerChoice = PLAYER_PAPER
-    } else if (
-        opponentChoice == OPPONENT_ROCK && desiredOutcome == PLAYER_DRAW
-        || opponentChoice == OPPONENT_PAPER && desiredOutcome == PLAYER_LOSE
-        || opponentChoice == OPPONENT_SCISSORS && desiredOutcome == PLAYER_WIN
-    ) {
-        playerChoice = PLAYER_ROCK
-    } else if (
-        opponentChoice == OPPONENT_ROCK && desiredOutcome == PLAYER_LOSE
-        || opponentChoice == OPPONENT_PAPER && desiredOutcome == PLAYER_WIN
-        || opponentChoice == OPPONENT_SCISSORS && desiredOutcome == PLAYER_DRAW
-    ) {
-        playerChoice = PLAYER_SCISSORS
-    }
+  if (opponentChoice == OPPONENT_ROCK && desiredOutcome == PLAYER_WIN ||
+      opponentChoice == OPPONENT_PAPER && desiredOutcome == PLAYER_DRAW ||
+      opponentChoice == OPPONENT_SCISSORS && desiredOutcome == PLAYER_LOSE) {
+    playerChoice = PLAYER_PAPER
+  } else if (opponentChoice == OPPONENT_ROCK && desiredOutcome == PLAYER_DRAW ||
+      opponentChoice == OPPONENT_PAPER && desiredOutcome == PLAYER_LOSE ||
+      opponentChoice == OPPONENT_SCISSORS && desiredOutcome == PLAYER_WIN) {
+    playerChoice = PLAYER_ROCK
+  } else if (opponentChoice == OPPONENT_ROCK && desiredOutcome == PLAYER_LOSE ||
+      opponentChoice == OPPONENT_PAPER && desiredOutcome == PLAYER_WIN ||
+      opponentChoice == OPPONENT_SCISSORS && desiredOutcome == PLAYER_DRAW) {
+    playerChoice = PLAYER_SCISSORS
+  }
 
-
-    return rockPaperScissors(playerChoice, opponentChoice)
-
+  return rockPaperScissors(playerChoice, opponentChoice)
 }
 
-private fun rockPaperScissors(
-    playerChoice: String, opponentChoice: String
-): Int {
-    var score = 0
+private fun rockPaperScissors(playerChoice: String, opponentChoice: String): Int {
+  var score = 0
 
-    if (isChoiceSame(playerChoice, opponentChoice)) {
-        score = DRAW_SCORE
-    } else if (playerChoice == PLAYER_ROCK && opponentChoice == OPPONENT_PAPER) {
-        score = OPPONENT_WIN_SCORE
-    } else if (playerChoice == PLAYER_ROCK && opponentChoice == OPPONENT_SCISSORS) {
-        score = PLAYER_WIN_SCORE
-    } else if (playerChoice == PLAYER_PAPER && opponentChoice == OPPONENT_ROCK) {
-        score = PLAYER_WIN_SCORE
-    } else if (playerChoice == PLAYER_PAPER && opponentChoice == OPPONENT_SCISSORS) {
-        score = OPPONENT_WIN_SCORE
-    } else if (playerChoice == PLAYER_SCISSORS && opponentChoice == OPPONENT_ROCK) {
-        score = OPPONENT_WIN_SCORE
-    } else if (playerChoice == PLAYER_SCISSORS && opponentChoice == OPPONENT_PAPER) {
-        score = PLAYER_WIN_SCORE
-    }
+  if (isChoiceSame(playerChoice, opponentChoice)) {
+    score = DRAW_SCORE
+  } else if (playerChoice == PLAYER_ROCK && opponentChoice == OPPONENT_PAPER) {
+    score = OPPONENT_WIN_SCORE
+  } else if (playerChoice == PLAYER_ROCK && opponentChoice == OPPONENT_SCISSORS) {
+    score = PLAYER_WIN_SCORE
+  } else if (playerChoice == PLAYER_PAPER && opponentChoice == OPPONENT_ROCK) {
+    score = PLAYER_WIN_SCORE
+  } else if (playerChoice == PLAYER_PAPER && opponentChoice == OPPONENT_SCISSORS) {
+    score = OPPONENT_WIN_SCORE
+  } else if (playerChoice == PLAYER_SCISSORS && opponentChoice == OPPONENT_ROCK) {
+    score = OPPONENT_WIN_SCORE
+  } else if (playerChoice == PLAYER_SCISSORS && opponentChoice == OPPONENT_PAPER) {
+    score = PLAYER_WIN_SCORE
+  }
 
-    return score + getChoiceScore(playerChoice)
+  return score + getChoiceScore(playerChoice)
 }
 
 private fun parseInput(): List<List<String>> {
-    val bufferedReader: BufferedReader = File("inputs/day2.txt").bufferedReader()
-    val inputString = bufferedReader.use { it.readText() }
+  val bufferedReader: BufferedReader = File("inputs/day2.txt").bufferedReader()
+  val inputString = bufferedReader.use { it.readText() }
 
-    return inputString.split("\n").map { it.split(" ") }
+  return inputString.split("\n").map { it.split(" ") }
 }
-
 
 private fun partOne(): Int {
-    val rounds = parseInput()
+  val rounds = parseInput()
 
-    val results = rounds.map {
-        rockPaperScissors(it[1], it[0])
-    }
+  val results = rounds.map { rockPaperScissors(it[1], it[0]) }
 
+  val totalScore = results.sum()
 
-    val totalScore = results.sum()
-
-    println("Total score assuming XYZ: $totalScore \n")
-    return totalScore
+  println("Total score assuming XYZ: $totalScore \n")
+  return totalScore
 }
 
-
 private fun partTwo(): Int {
-    val rounds = parseInput()
+  val rounds = parseInput()
 
-    val results = rounds.map {
-        partTwoGame(it[0], it[1])
-    }
+  val results = rounds.map { partTwoGame(it[0], it[1]) }
 
-    val totalScore = results.sum()
+  val totalScore = results.sum()
 
-    println("Total score using the secret method: $totalScore \n")
+  println("Total score using the secret method: $totalScore \n")
 
-    return totalScore
-
-
+  return totalScore
 }
 
 fun dayTwo() {
-    partOne()
-    partTwo()
+  partOne()
+  partTwo()
 }

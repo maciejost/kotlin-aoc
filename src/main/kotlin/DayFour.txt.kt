@@ -13,20 +13,19 @@ private fun parseInput(): List<List<String>> {
     val splitByPair = splitByLine.map { it.split(",") }
 
     return splitByPair
-    println(splitByPair)
 }
 
 
 private fun partOne() {
     val pairs = parseInput()
 
-    val pairsAsRanges = pairs.map { it.map { it.split("-") }}.map { it.map { it[0].toInt()..it[1].toInt() }}
+    val pairsAsRanges = pairs.map { pair -> pair.map { it.split("-") }}.map { rangeNumbers -> rangeNumbers.map { it[0].toInt()..it[1].toInt() }}
 
     println(pairsAsRanges)
 
-    var rangesThatFit= 0;
+    var rangesThatFit= 0
 
-    for (i in 0 until pairsAsRanges.size) {
+    for (i in pairsAsRanges.indices) {
         val currentRange = pairsAsRanges[i][0]
         val nextRange = pairsAsRanges[i][1]
 

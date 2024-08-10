@@ -19,16 +19,16 @@ private fun areCharsUnique ( chars: List<Char> ): Boolean {
 
 
 
-private fun readPacket (): Int {
+private fun readPacket (windowSize: Int): Int {
     val input = readInput()
 
 
-    for (i in 0 until input.length - 4) {
-        val packet = input.substring(i, i + 4)
+    for (i in 0 until input.length - windowSize) {
+        val packet = input.substring(i, i + windowSize)
         val chars = packet.toCharArray().toList()
 
         if (areCharsUnique(chars)) {
-            return i + 4
+            return i + windowSize
         }
     }
 
@@ -36,9 +36,13 @@ private fun readPacket (): Int {
 
 }
 
+
+
 fun daySix() {
     val input = readInput()
-    val packetIndex = readPacket()
+    val packetIndex = readPacket(4)
+    val messageIndex = readPacket(14)
 
-    println("First window of four unique characters occurs at ${input.substring(packetIndex - 4, packetIndex)}, with the sequence \"${input.substring(packetIndex - 4, packetIndex)}\"")
+    println("First window of four unique characters occurs at index ${packetIndex}, with the sequence \"${input.substring(packetIndex - 4, packetIndex)}\"")
+    println("The first window of 14 unique characters occurs at index ${messageIndex}, with the sequence \"${input.substring(messageIndex - 14, messageIndex)}\"")
 }
